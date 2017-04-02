@@ -1,19 +1,59 @@
 angular
-.module("styleReview", [])
-.factory('items', [function(){
-  var items_array = {
-    items: [{
-      title: 'Scallop Shirt',
-            photo_url: "http://g.nordstromimage.com/ImageGallery/store/product/Zoom/3/_9956483.jpg",
-            maker: "J.Crew",
-            description: "This top is comfortable and simple",
-            price: 40,
-            upvotes: 0
-    }]
+.module("styleReview", [
+  "ui.router"
+])
+.config([
+  "$stateProvider",
+  "$urlRouterProvider",
+  function($stateProvider, $urlRouterProvider){
+    $stateProvider
+    .state("index", {
+      url: '/items',
+      templateUrl: "/index.html",
+      controller: "IndexController"
+    })
+    .state("items", {
+      url: "/items/{id}",
+      templateUrl: "/items.html",
+      controller: "ItemsController"
+    })
+    //redirects to index if not found
+    $urlRouterProvider.otherwise('items')
+
   }
-  return items_array
+])
+.factory('items', [
+  function(){
+    var items_array = {
+      items: [
+        {   title: 'Scallop Shirt',
+              photo_url: "http://g.nordstromimage.com/ImageGallery/store/product/Zoom/3/_9956483.jpg",
+              maker: "J.Crew",
+              description: "This top is comfortable and simple",
+              price: 40,
+              upvotes: 0,
+              reviews: [
+                {
+                  author: 'Mary',
+                  content: 'Love this!',
+                  upvotes: 0
+                },
+                { author: 'Kate',
+                  content: 'Just bought this too!',
+                  upvotes: 0
+                },
+                {
+                  author: 'Abby',
+                  content: 'Definitely recommend!',
+                  upvotes: 0
+                }
+              ]
+              }
+      ]
+    }
+        return items_array
 }])
-.controller("IndexCtrl", [
+.controller("IndexController", [
   "$scope",
   'items',
   function($scope, items){
@@ -53,7 +93,23 @@ angular
         maker: $scope.maker,
         description: $scope.description,
         price: $scope.price,
-        upvotes: 0
+        upvotes: 0,
+        reviews: [
+          {
+            author: 'Mary',
+            content: 'Love this!',
+            upvotes: 0
+          },
+          { author: 'Amanda',
+            content: 'Just bought this too!',
+            upvotes: 0
+          },
+          {
+            author: 'Leah',
+            content: 'Definitely recommend!',
+            upvotes: 0
+          }
+        ]
       })
       $scope.title = '';
       $scope.photo_url = '';
@@ -67,3 +123,13 @@ angular
       item.upvotes +=1
     }
   }])
+  .controller("ItemsController", [
+    "$scope",
+    "$stateParams",
+    "items",
+    function($scope, $stateParams, items){
+      //takes the specific item from the items_array
+      $scope.item = items.items[$stateParams.id]
+
+  }
+])
