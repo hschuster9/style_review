@@ -8,4 +8,10 @@ var ReviewSchema = new mongoose.Schema({
 
 })
 
+ReviewSchema.methods.upvote = function(c) {
+  this.upvotes += 1;
+  this.save(c)
+}
+
+
 mongoose.model("Review", ReviewSchema)

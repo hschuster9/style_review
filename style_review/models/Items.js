@@ -8,7 +8,11 @@ var ItemSchema = new mongoose.Schema({
   price: Number,
   upvotes: {type: Number, default: 0},
   reviews: [{type: mongoose.Schema.Types.ObjectId, ref: "Review"}]
-
 })
+
+ItemSchema.methods.upvote = function(c) {
+  this.upvotes += 1;
+  this.save(c)
+}
 
 mongoose.model("Item", ItemSchema)

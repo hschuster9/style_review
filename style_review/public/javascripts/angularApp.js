@@ -10,7 +10,13 @@ angular
     .state("index", {
       url: '/items',
       templateUrl: "/index.html",
-      controller: "IndexController"
+      controller: "IndexController",
+      //makes all items loaded before page renders
+      resolve: {
+        itemPromise: ['items', function(items){
+          return items.getAll()
+        }]
+      }
     })
     .state("items", {
       url: "/items/{id}",
@@ -23,7 +29,8 @@ angular
   }
 ])
 .factory('items', [
-  function(){
+  "$http",
+  function($http){
     var items_array = {
       items: [
         {   title: 'Scallop Shirt',
@@ -51,6 +58,18 @@ angular
               }
       ]
     }
+      items_array.getAll = function(){
+        return $http.get("/items").success(function(data){
+          //create new copy of data
+          angular.copy(data, items_array.items)
+        })
+      }
+      //for item to persist in database
+      items_array.create = function(item){
+        return $http.post('/items', item).success(function(data){
+          items_array.items.push(data)
+        })
+      }
         return items_array
 }])
 .controller("IndexController", [
@@ -87,29 +106,30 @@ angular
 
     $scope.addItem = function(){
 
-      $scope.items.push({
+      items.create({
         title: $scope.title,
         photo_url: $scope.photo_url,
         maker: $scope.maker,
         description: $scope.description,
-        price: $scope.price,
-        upvotes: 0,
-        reviews: [
-          {
-            author: 'Mary',
-            content: 'Love this!',
-            upvotes: 0
-          },
-          { author: 'Amanda',
-            content: 'Just bought this too!',
-            upvotes: 0
-          },
-          {
-            author: 'Leah',
-            content: 'Definitely recommend!',
-            upvotes: 0
-          }
-        ]
+        price: $scope.price
+
+        // upvotes: 0,
+        // reviews: [
+        //   {
+        //     author: 'Mary',
+        //     content: 'Love this!',
+        //     upvotes: 0
+        //   },
+        //   { author: 'Amanda',
+        //     content: 'Just bought this too!',
+        //     upvotes: 0
+        //   },
+        //   {
+        //     author: 'Leah',
+        //     content: 'Definitely recommend!',
+        //     upvotes: 0
+        //   }
+        // ]
       })
       $scope.title = '';
       $scope.photo_url = '';
