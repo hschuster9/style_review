@@ -22,7 +22,7 @@
           <span class="glyphicon glyphicon-heart-empty" ng-click="increaseUpvotes(item)"> </span> {{item.upvotes}}
           <p>{{item.title}}</p>
 
-          <a href="#/items/{{$index}}"><img class="indexImage" src="{{item.photo_url}}" alt="item image"/></a>
+          <a href="#/items/{{item._id}}"><img class="indexImage" src="{{item.photo_url}}" alt="item image"/></a>
 
         </div>
 

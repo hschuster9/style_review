@@ -21,7 +21,12 @@ angular
     .state("items", {
       url: "/items/{id}",
       templateUrl: "/items.html",
-      controller: "ItemsController"
+      controller: "ItemsController",
+      resolve: {
+        item: ["$stateParams", "items", function($stateParams, items){
+          return items.get($stateParams.id)
+        }]
+      }
     })
     //redirects to index if not found
     $urlRouterProvider.otherwise('items')
@@ -64,13 +69,34 @@ angular
           angular.copy(data, items_array.items)
         })
       }
+
+      items_array.get = function(id){
+        return $http.get('/items/'+ id).then(function(res){
+          return res.data;
+        })
+      }
       //for item to persist in database
       items_array.create = function(item){
         return $http.post('/items', item).success(function(data){
           items_array.items.push(data)
         })
       }
-        return items_array
+      items_array.upvote = function(item){
+        return $http.put('/items/'+ item._id+"/upvote").success(function(data){
+          item.upvotes += 1
+        })
+      }
+      items_array.addReview = function(id, review){
+        return $http.post('/items/' + id + "/reviews", review)
+      }
+
+
+      items_array.upvoteReview = function(item, review){
+        return $http.put('/items/' + item._id + '/reviews/' + review._id + "/upvote").success(function(data){
+          review.upvotes += 1
+        })
+      }
+      return items_array
 }])
 .controller("IndexController", [
   "$scope",
@@ -140,25 +166,30 @@ angular
     }
 
     $scope.increaseUpvotes = function(item){
-      item.upvotes +=1
+      items.upvote(item)
     }
   }])
   .controller("ItemsController", [
     "$scope",
     "$stateParams",
     "items",
-    function($scope, $stateParams, items){
+    "item",
+    function($scope, $stateParams, items, item){
       //takes the specific item from the items_array
-      $scope.item = items.items[$stateParams.id]
+      $scope.item = item
 
       $scope.addReview = function(){
-
-        $scope.item.reviews.push({
+        items.addReview(item._id,{
           author: $scope.author,
-          content: $scope.content,
-          upvotes: 0
+          content: $scope.content
+        }).success(function(review){
+          $scope.item.reviews.push(review)
         })
         $scope.author = ''
         $scope.content = ''
+      }
+
+      $scope.increaseUpvotes = function(review){
+        items.upvoteReview(item, review)
       }
       }])
