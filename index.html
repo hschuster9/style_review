@@ -12,5 +12,15 @@
       <img class="indexImage" src="{{item.photo_url}}" alt="item image"/> - upvotes: {{item.upvotes}}
 
     </div>
+
+    <form ng-submit="addItem()">
+      <input type="text" ng-model="title" placeholder="Title"/>
+      <input type="text" ng-model="photo_url" placeholder="Photo Url"/>
+      <input type="text" ng-model="maker" placeholder="Purchased From"/>
+      <input type="text" ng-model="description" placeholder="Description"/>
+      <input type="text" ng-model="price" placeholder="Price"/>
+      <input type="text" ng-model="upvotes"/>
+      <button type="submit">Item</button>
+    </form>
   </body>
 </html>

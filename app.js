@@ -27,8 +27,24 @@ angular
       description: "Perfect for a night out",
       price: 180,
       upvotes: 5
-
     }
+  ]
 
-    ]
+    $scope.addItem = function(){
+
+      $scope.items.push({
+        title: $scope.title,
+        photo_url: $scope.photo_url,
+        maker: $scope.maker,
+        description: $scope.description,
+        price: $scope.price,
+        upvotes: $scope.upvotes
+      })
+      $scope.title = '';
+      $scope.photo_url = '';
+      $scope.maker = '';
+      $scope.description = '';
+      $scope.price = '';
+      $scope.upvotes = '';
+    }
   }])
