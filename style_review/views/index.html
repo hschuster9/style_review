@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Style Review</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style> .glyphicon-heart-empty { cursor:pointer } </style>
+      <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.js"></script>
+    <script src="app.js"></script>
+
+  </head>
+  <body data-ng-app="styleReview" data-ng-controller="IndexController">
+
+    <ui-view class="app"></ui-view>
+
+    <!--home page -->
+    <script type="text/ng-template" id="/index.html">
+      <h2>Style Review</h2>
+        <div ng-repeat="item in items | orderBy: '-upvotes'">
+          <span class="glyphicon glyphicon-heart-empty" ng-click="increaseUpvotes(item)"> </span> {{item.upvotes}}
+          <p>{{item.title}}</p>
+
+          <a href="#/items/{{$index}}"><img class="indexImage" src="{{item.photo_url}}" alt="item image"/></a>
+
+        </div>
+
+        <form data-ng-submit="addItem()">
+          <input type="text" data-ng-model="title" placeholder="Title"/>
+          <input type="text" data-ng-model="photo_url" placeholder="Photo Url"/>
+          <input type="text" data-ng-model="maker" placeholder="Purchased From"/>
+          <input type="text" data-ng-model="description" placeholder="Description"/>
+          <input type="text" data-ng-model="price" placeholder="Price"/>
+
+          <button type="submit">Add Item</button>
+        </form>
+      </script>
+
+    <!--indiviual item page -->
+    <script type="text/ng-template" id="/items.html">
+      <h2>Details</h2>
+
+      <p>{{item.title}}</p>
+      <img class="indexImage" src="{{item.photo_url}}" alt="item image"/></a>
+      <p>{{item.description}}</p>
+      <p>{{item.maker}}</p>
+      <p> ${{item.price}}</p>
+
+     <div ng-repeat="review in item.reviews | orderBy:'-upvotes'">
+
+       <span class="glyphicon glyphicon-heart-empty" ng-click="increaseUpvotes(review)"> </span> {{review.upvotes}}
+        Review by {{review.author}}
+       <span>
+         {{review.content}}
+       </span>
+
+     </div>
+
+      <form ng-submit="addReview()">
+        <h3>Add Review</h3>
+
+        <div>
+          <input type="text" placeholder="Author" ng-model="author"></input>
+          <input type="text" placeholder="Content" ng-model="content"></input>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+
+    </script>
+  </body>
+</html>
