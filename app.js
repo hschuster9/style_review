@@ -131,5 +131,14 @@ angular
       //takes the specific item from the items_array
       $scope.item = items.items[$stateParams.id]
 
-  }
-])
+      $scope.addReview = function(){
+        
+        $scope.item.reviews.push({
+          author: $scope.author,
+          content: $scope.content,
+          upvotes: 0
+        })
+        $scope.author = ''
+        $scope.content = ''
+      }
+      }])

@@ -4,6 +4,7 @@
     <title>Style Review</title>
     <link rel="stylesheet" href="styles.css" />
     <style> .glyphicon-heart-empty { cursor:pointer } </style>
+      <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.js"></script>
@@ -12,7 +13,7 @@
   </head>
   <body data-ng-app="styleReview" data-ng-controller="IndexController">
 
-    <ui-view></ui-view>
+    <ui-view class="app"></ui-view>
 
     <!--home page -->
     <script type="text/ng-template" id="/index.html">
@@ -50,13 +51,21 @@
 
        <span class="glyphicon glyphicon-heart-empty" ng-click="increaseUpvotes(review)"> </span> {{review.upvotes}}
         Review by {{review.author}}
-       <span style="font-size:20px; margin-left:10px;">
+       <span>
          {{review.content}}
        </span>
 
      </div>
 
+      <form ng-submit="addReview()">
+        <h3>Add Review</h3>
 
+        <div>
+          <input type="text" placeholder="Author" ng-model="author"></input>
+          <input type="text" placeholder="Content" ng-model="content"></input>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
 
     </script>
   </body>
