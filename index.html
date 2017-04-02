@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Style Review</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="app.js"></script>
+  </head>
+  <body ng-app="styleReview" ng-controller="IndexCtrl">
+    <div ng-repeat="item in items | orderBy: '-upvotes'">
+      <p>{{item.title}}</p>
+      <img class="indexImage" src="{{item.photo_url}}" alt="item image"/> - upvotes: {{item.upvotes}}
+
+    </div>
+  </body>
+</html>
