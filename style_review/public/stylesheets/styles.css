@@ -6,3 +6,16 @@
 .app {
   font-family: 'Muli', sans-serif;
 }
+
+.addItemContainer {
+  margin-top: 40px;
+  margin-bottom: 50px;
+}
+
+.mainContainer {
+  text-align: center;
+}
+
+.itemContainer {
+  margin-bottom: 30px;
+}

@@ -17,25 +17,32 @@
 
     <!--home page -->
     <script type="text/ng-template" id="/index.html">
+      <div class="mainContainer">
       <h2>Style Review</h2>
-        <div ng-repeat="item in items | orderBy: '-upvotes'">
-          <span class="glyphicon glyphicon-heart-empty" ng-click="increaseUpvotes(item)"> </span> {{item.upvotes}}
+
+      <div class="addItemContainer">
+      <form data-ng-submit="addItem()" ng-show='showForm'>
+        <input type="text" data-ng-model="title" placeholder="Title"/>
+        <input type="text" data-ng-model="photo_url" placeholder="Photo Url"/>
+        <input type="text" data-ng-model="maker" placeholder="Purchased From"/>
+        <input type="text" data-ng-model="description" placeholder="Description"/>
+        <input type="text" data-ng-model="price" placeholder="Price"/>
+        <button ng-click="showForm = ! showForm" type="submit">Add Item</button>
+
+      </form>
+      <button ng-click="showForm = ! showForm" ng-show="!showForm" type="submit">Add Item</button>
+    </div>
+
+
+        <div class="itemContainer" ng-repeat="item in items | orderBy: '-upvotes'">
+
+
+          <a ng-href="#/items/{{item._id}}"><img class="indexImage" ng-src="{{item.photo_url}}" alt="item image"/></a>
+
           <p>{{item.title}}</p>
-
-          <a href="#/items/{{item._id}}"><img class="indexImage" src="{{item.photo_url}}" alt="item image"/></a>
-
+              <span class="glyphicon glyphicon-heart-empty" ng-click="increaseUpvotes(item)"> </span> {{item.upvotes}}
         </div>
-
-        <form data-ng-submit="addItem()" ng-show='showForm'>
-          <input type="text" data-ng-model="title" placeholder="Title"/>
-          <input type="text" data-ng-model="photo_url" placeholder="Photo Url"/>
-          <input type="text" data-ng-model="maker" placeholder="Purchased From"/>
-          <input type="text" data-ng-model="description" placeholder="Description"/>
-          <input type="text" data-ng-model="price" placeholder="Price"/>
-          <button ng-click="showForm = ! showForm" type="submit">Add Item</button>
-
-        </form>
-        <button ng-click="showForm = ! showForm" ng-show="!showForm" type="submit">Add Item</button>
+</div>
       </script>
 
     <!--indiviual item page -->
@@ -43,7 +50,7 @@
       <h2>Details</h2>
 
       <p>{{item.title}}</p>
-      <img class="indexImage" src="{{item.photo_url}}" alt="item image"/></a>
+      <img class="indexImage" ng-src="{{item.photo_url}}" alt="item image"/></a>
       <p>{{item.description}}</p>
       <p>{{item.maker}}</p>
       <p> ${{item.price}}</p>
