@@ -48,7 +48,7 @@
       <p> ${{item.price}}</p>
 
 
-      <button ng-click="deleteItem(item)" type="submit">Delete Item</button>
+      <a href="#/items"><button ng-click="deleteItem(item)" type="submit" >Delete Item</button></a>
 
 
      <div ng-repeat="review in item.reviews | orderBy:'-upvotes'">
