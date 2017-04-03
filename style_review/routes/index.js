@@ -49,6 +49,7 @@ router.param('review', function(req, res, next, id){
   })
 })
 
+//get individual item
 router.get('/items/:item', function(req, res){
   //populate loads comments when individual item page rendered
   req.item.populate('reviews', function(err, item){
@@ -57,6 +58,21 @@ router.get('/items/:item', function(req, res){
 
 })
 
+//delete
+router.delete('/items/:item', function(req, res){
+  req.item.reviews.forEach(function(id){
+      Review.remove({_id: id}, function(err){
+        if(err) {return next(err)}
+    })
+    })
+        Item.remove({_id: req.params.item}, function(err, item){
+        if(err) {return next(err)}
+        Item.find(function(err, items){
+          if(err) {return next(err)}
+          res.json(items)
+      })
+    })
+})
 //route to increase/update upvote, method in items.js
 router.put('/items/:item/upvote', function(req, res, next){
   req.item.upvote(function(err, item){

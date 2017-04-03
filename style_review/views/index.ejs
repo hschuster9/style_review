@@ -47,6 +47,10 @@
       <p>{{item.maker}}</p>
       <p> ${{item.price}}</p>
 
+
+      <button ng-click="deleteItem(item)" type="submit">Delete Item</button>
+
+
      <div ng-repeat="review in item.reviews | orderBy:'-upvotes'">
 
        <span class="glyphicon glyphicon-heart-empty" ng-click="increaseUpvotes(review)"> </span> {{review.upvotes}}

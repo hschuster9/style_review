@@ -38,29 +38,29 @@ angular
   function($http){
     var items_array = {
       items: [
-        {   title: 'Scallop Shirt',
-              photo_url: "http://g.nordstromimage.com/ImageGallery/store/product/Zoom/3/_9956483.jpg",
-              maker: "J.Crew",
-              description: "This top is comfortable and simple",
-              price: 40,
-              upvotes: 0,
-              reviews: [
-                {
-                  author: 'Mary',
-                  content: 'Love this!',
-                  upvotes: 0
-                },
-                { author: 'Kate',
-                  content: 'Just bought this too!',
-                  upvotes: 0
-                },
-                {
-                  author: 'Abby',
-                  content: 'Definitely recommend!',
-                  upvotes: 0
-                }
-              ]
-              }
+        // {   title: 'Scallop Shirt',
+        //       photo_url: "http://g.nordstromimage.com/ImageGallery/store/product/Zoom/3/_9956483.jpg",
+        //       maker: "J.Crew",
+        //       description: "This top is comfortable and simple",
+        //       price: 40,
+        //       upvotes: 0,
+        //       reviews: [
+        //         {
+        //           author: 'Mary',
+        //           content: 'Love this!',
+        //           upvotes: 0
+        //         },
+        //         { author: 'Kate',
+        //           content: 'Just bought this too!',
+        //           upvotes: 0
+        //         },
+        //         {
+        //           author: 'Abby',
+        //           content: 'Definitely recommend!',
+        //           upvotes: 0
+        //         }
+        //       ]
+        //       }
       ]
     }
       items_array.getAll = function(){
@@ -81,6 +81,13 @@ angular
           items_array.items.push(data)
         })
       }
+
+      items_array.delete = function(item){
+        return $http.delete('/items/' + item._id).success(function(data){
+          angular.copy(data, items_array.items)
+        })
+      }
+
       items_array.upvote = function(item){
         return $http.put('/items/'+ item._id+"/upvote").success(function(data){
           item.upvotes += 1
@@ -138,24 +145,6 @@ angular
         maker: $scope.maker,
         description: $scope.description,
         price: $scope.price
-
-        // upvotes: 0,
-        // reviews: [
-        //   {
-        //     author: 'Mary',
-        //     content: 'Love this!',
-        //     upvotes: 0
-        //   },
-        //   { author: 'Amanda',
-        //     content: 'Just bought this too!',
-        //     upvotes: 0
-        //   },
-        //   {
-        //     author: 'Leah',
-        //     content: 'Definitely recommend!',
-        //     upvotes: 0
-        //   }
-        // ]
       })
       $scope.title = '';
       $scope.photo_url = '';
@@ -165,9 +154,13 @@ angular
       $scope.upvotes = '';
     }
 
+
+
     $scope.increaseUpvotes = function(item){
       items.upvote(item)
     }
+
+
   }])
   .controller("ItemsController", [
     "$scope",
@@ -187,6 +180,9 @@ angular
         })
         $scope.author = ''
         $scope.content = ''
+      }
+      $scope.deleteItem = function(item){
+        items.delete(item)
       }
 
       $scope.increaseUpvotes = function(review){
