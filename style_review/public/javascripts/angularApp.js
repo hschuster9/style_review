@@ -63,13 +63,14 @@ angular
         //       }
       ]
     }
+      //returns all items and makes a copy
       items_array.getAll = function(){
         return $http.get("/items").success(function(data){
           //create new copy of data
           angular.copy(data, items_array.items)
         })
       }
-
+      //return individual item
       items_array.get = function(id){
         return $http.get('/items/'+ id).then(function(res){
           return res.data;

@@ -26,15 +26,16 @@
 
         </div>
 
-        <form data-ng-submit="addItem()">
+        <form data-ng-submit="addItem()" ng-show='showForm'>
           <input type="text" data-ng-model="title" placeholder="Title"/>
           <input type="text" data-ng-model="photo_url" placeholder="Photo Url"/>
           <input type="text" data-ng-model="maker" placeholder="Purchased From"/>
           <input type="text" data-ng-model="description" placeholder="Description"/>
           <input type="text" data-ng-model="price" placeholder="Price"/>
+          <button ng-click="showForm = ! showForm" type="submit">Add Item</button>
 
-          <button type="submit">Add Item</button>
         </form>
+        <button ng-click="showForm = ! showForm" ng-show="!showForm" type="submit">Add Item</button>
       </script>
 
     <!--indiviual item page -->

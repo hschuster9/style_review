@@ -51,7 +51,7 @@ router.param('review', function(req, res, next, id){
 
 //get individual item
 router.get('/items/:item', function(req, res){
-  //populate loads comments when individual item page rendered
+  //populate loads reviews when individual item page rendered
   req.item.populate('reviews', function(err, item){
       res.json(item)
   })
@@ -80,7 +80,7 @@ router.put('/items/:item/upvote', function(req, res, next){
     res.json(item)
   })
 })
-
+//route to increase/update review upvote, method in items.js
 router.put('/items/:item/reviews/:review/upvote', function(req, res, next){
   req.review.upvote(function(err, review){
     if(err) {return next(err)}
